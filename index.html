@@ -1,11 +1,99 @@
-<h1>Welcome to Elnur Badalov's website!</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Popular Topics</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 0 20px;
+    }
+    h1 {
+        text-align: center;
+    }
+    .search-container {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    #searchInput {
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+    .post {
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+</head>
+<body>
 
-<h2>You can see how nice it looks</h2>
+<div class="container">
+    <h1>Popular Topics</h1>
 
-<h3>Some links</h3>
-<a href="https://www.linkedin.com/in/elnur-badalov-651835240/">linkedin</a>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
+    </div>
 
+    <div id="posts">
+        <!-- Posts will be dynamically added here -->
+    </div>
+</div>
 
-<a href="/pma.txt"></a>
+<script>
+    // Sample data for posts
+    const posts = [
+        { title: "Post 1 - Technology", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut magna consectetur." },
+        { title: "Post 2 - Science", content: "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas." },
+        { title: "Post 3 - Health", content: "Nullam condimentum enim non tellus euismod dapibus. Nam vitae justo vitae sem eleifend dictum." }
+    ];
 
-<img src="/catpic2.png" class="it is in another file called pma.txt">
+    // Function to render posts
+    function renderPosts(posts) {
+        const postsContainer = document.getElementById("posts");
+        postsContainer.innerHTML = "";
+        posts.forEach(post => {
+            const postElement = document.createElement("div");
+            postElement.classList.add("post");
+            postElement.innerHTML = `<h2>${post.title}</h2><p>${post.content}</p>`;
+            postsContainer.appendChild(postElement);
+        });
+    }
+
+    // Initial render of posts
+    renderPosts(posts);
+
+    // Function to filter posts based on search input
+    document.getElementById("searchInput").addEventListener("input", function(event) {
+        const searchText = event.target.value.toLowerCase();
+        const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchText) || post.content.toLowerCase().includes(searchText));
+        renderPosts(filteredPosts);
+    });
+
+    // Get parameter from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('var');
+    if (param) {
+        const searchText = param.toLowerCase();
+        const filteredPosts = posts.filter(post => post.title.toLowerCase().includes(searchText) || post.content.toLowerCase().includes(searchText));
+        renderPosts(filteredPosts);
+        console.log("Parameter from URL:", param);
+    }
+    if (param.includes("alert")) {
+        alert("XSS!")
+    }
+</script>
+
+</body>
+</html>
+
